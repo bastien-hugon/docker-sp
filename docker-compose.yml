@@ -25,4 +25,4 @@ websocket:
   - ./source-sp/server/server.js:/srv/socket.js
   - ./.data/websocket:/srv/logs
   ports:
-  - "4242:3000"
+  - "80:3000"
