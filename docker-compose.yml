@@ -1,10 +1,26 @@
-redis:
-  image: redis:alpine
+db:
+    image: mysql
+    volumes:
+        - /var/lib/mysql:/var/lib/mysql
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
+
+phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+        - db:db
+    ports:
+        - "8080:80"
+
+datastore:
+  image: busybox
+  volumes:
+    - /var/lib/mysql
 
 websocket:
   image: offlinegmbh/socketio
   links:
-  - redis
+  - db:db
   volumes:
   - ./source-sp/server/server.js:/srv/socket.js
   - ./.data/websocket:/srv/logs
