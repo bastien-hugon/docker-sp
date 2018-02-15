@@ -1,28 +1,23 @@
-db:
-    image: mysql
-    volumes:
-        - /var/lib/mysql:/var/lib/mysql
-    environment:
-        - MYSQL_ROOT_PASSWORD=root
-
-phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    links:
-        - db:db
-    ports:
-        - "8080:80"
-
-datastore:
-  image: busybox
+mysql:
+  image: mysql
   volumes:
     - /var/lib/mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=Sup1nf0
+
+phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  links:
+    - mysql:db
+  ports:
+    - 8080:80
 
 websocket:
   image: offlinegmbh/socketio
   links:
-  - db:db
+  - mysql:db
   volumes:
   - ./source-sp/server/server.js:/srv/socket.js
   - ./.data/websocket:/srv/logs
   ports:
-  - "80:3000"
+  - "3000:3000"
